@@ -19,7 +19,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # 3. MLflow setup
-mlflow.set_experiment("Penguins-Klasifikasi")
+mlflow.set_experiment("penguins-klasifikasi")
 # Set more conservative autologging to avoid version conflicts
 mlflow.sklearn.autolog(
     log_input_examples=True,
