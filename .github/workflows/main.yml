@@ -3,10 +3,10 @@ name: CI/CD MLflow
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
-      - master
+      - main
 
 env:
   CSV_URL: "MLproject/penguins_preprocessing.csv"
@@ -17,31 +17,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE
       - uses: actions/checkout@v3
 
-      # Setup Python 3.12.7
       - name: Set up Python 3.12.7
         uses: actions/setup-python@v4
         with:
           python-version: "3.12.7"
       
-      # Check Env Variables
       - name: Check Env
         run: |
-          echo $CSV_URL
-      # Install mlflow
+          echo "CSV file: $CSV_URL"
+          echo "Target variable: $TARGET_VAR"
+      
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install mlflow  
+          pip install -r MLproject/requirements.txt
           
-      # Run as a mlflow project
       - name: Run mlflow project
         run: |
-          mlflow run MLproject --env-manager=local 
+          mlflow run MLproject --env-manager=local --no-conda --experiment-name "penguins-klasifikasi"
       
-      # Get latest run_id
       - name: Get latest MLflow run_id
         run: |
           RUN_ID=$(ls -td mlruns/0/*/ | head -n 1 | cut -d'/' -f3)
