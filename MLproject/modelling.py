@@ -20,33 +20,39 @@ def main():
         stratify=y
     )
 
-    # 3. MLflow setup
-    mlflow.set_experiment("penguins-klasifikasi")
+    # 3. MLflow setup - hanya set experiment jika tidak dijalankan via CLI
+    if not os.environ.get("MLFLOW_RUN_ID"):
+        mlflow.set_experiment("penguins-klasifikasi")
+
+    # 4. Gunakan nested_run jika run sudah ada dari CLI
+    if os.environ.get("MLFLOW_RUN_ID"):
+        with mlflow.start_run(nested=True):
+            train_and_log_model(X_train, X_test, y_train, y_test)
+    else:
+        with mlflow.start_run():
+            train_and_log_model(X_train, X_test, y_train, y_test)
+
+def train_and_log_model(X_train, X_test, y_train, y_test):
+    # Model training
+    model = RandomForestClassifier(
+        n_estimators=100,
+        random_state=42,
+        verbose=1
+    )
+    model.fit(X_train, y_train)
     
-    # Gunakan run yang sudah ada jika dijalankan melalui MLflow CLI
-    run_id = os.environ.get("MLFLOW_RUN_ID")
+    # Evaluation
+    accuracy = model.score(X_test, y_test)
+    y_pred = model.predict(X_test)
+    report = classification_report(y_test, y_pred, output_dict=True)
     
-    with mlflow.start_run(run_id=run_id):
-        # 4. Model training
-        model = RandomForestClassifier(
-            n_estimators=100,
-            random_state=42,
-            verbose=1
-        )
-        model.fit(X_train, y_train)
-        
-        # 5. Evaluation
-        accuracy = model.score(X_test, y_test)
-        y_pred = model.predict(X_test)
-        report = classification_report(y_test, y_pred, output_dict=True)
-        
-        # Log metrics tambahan jika diperlukan
-        mlflow.log_metric("accuracy", accuracy)
-        for label in report:
-            if label not in ['accuracy', 'macro avg', 'weighted avg']:
-                mlflow.log_metric(f"precision_{label}", report[label]['precision'])
-                mlflow.log_metric(f"recall_{label}", report[label]['recall'])
-                mlflow.log_metric(f"f1_{label}", report[label]['f1-score'])
+    # Log metrics
+    mlflow.log_metric("accuracy", accuracy)
+    for label in report:
+        if label not in ['accuracy', 'macro avg', 'weighted avg']:
+            mlflow.log_metric(f"precision_{label}", report[label]['precision'])
+            mlflow.log_metric(f"recall_{label}", report[label]['recall'])
+            mlflow.log_metric(f"f1_{label}", report[label]['f1-score'])
 
 if __name__ == "__main__":
     main()
