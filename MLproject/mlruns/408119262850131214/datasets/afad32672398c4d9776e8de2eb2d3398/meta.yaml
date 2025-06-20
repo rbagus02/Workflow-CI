@@ -1,0 +1,10 @@
+digest: ce6f92ce
+name: dataset
+profile: '{"num_rows": 69, "num_elements": 276}'
+schema: '{"mlflow_colspec": [{"type": "double", "name": "culmen_length_mm", "required":
+  true}, {"type": "double", "name": "culmen_depth_mm", "required": true}, {"type":
+  "double", "name": "flipper_length_mm", "required": true}, {"type": "double", "name":
+  "body_mass_g", "required": true}]}'
+source: '{"tags": {"mlflow.user": "Lenovo", "mlflow.source.name": "modelling.py",
+  "mlflow.source.type": "LOCAL", "mlflow.source.git.commit": "2dd656088751f60c1449cca2b5cfc9581820b780"}}'
+source_type: code

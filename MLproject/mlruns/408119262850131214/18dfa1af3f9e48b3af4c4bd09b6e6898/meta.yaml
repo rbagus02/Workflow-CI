@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/Lenovo/Downloads/Workflow-CI/MLproject/mlruns/408119262850131214/18dfa1af3f9e48b3af4c4bd09b6e6898/artifacts
+end_time: 1750429994035
+entry_point_name: ''
+experiment_id: '408119262850131214'
+lifecycle_stage: active
+run_id: 18dfa1af3f9e48b3af4c4bd09b6e6898
+run_name: big-mule-135
+run_uuid: 18dfa1af3f9e48b3af4c4bd09b6e6898
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1750429987525
+status: 3
+tags: []
+user_id: Lenovo
