@@ -1,9 +1,5 @@
-name: penguins-classification
-python_env: python_env.yaml
-
+name: penguins-klasifikasi
+conda_env: conda.yaml
 entry_points:
   main:
-    parameters:
-      csv_url: {type: str, default: "penguins_preprocessing.csv"}
-      target_var: {type: str, default: "species"}
-    command: "python modelling.py --csv_url {csv_url} --target_var {target_var}"
+    command: "python modelling.py"
