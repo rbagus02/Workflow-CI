@@ -2,4 +2,8 @@ name: penguins-klasifikasi
 conda_env: conda.yaml
 entry_points:
   main:
+    parameters:
+      data_file:
+        type: str
+        default: "penguins_preprocessing.csv"
     command: "python modelling.py"
